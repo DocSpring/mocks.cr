@@ -12,6 +12,7 @@ end
 
 Mocks.create_mock File do
   mock self.exists?(name)
+  mock self.read_lines(filename, encoding = nil, invalid = nil, chomp = true)
 end
 
 describe "create module mock macro" do
@@ -25,5 +26,10 @@ describe "create module mock macro" do
     allow(File).to receive(self.exists?("hello")).and_return(true)
     File.exists?("world").should eq(false)
     File.exists?("hello").should eq(true)
+  end
+
+  it "successfully mocks File.read_lines" do
+    allow(File).to receive(self.read_lines("example")).and_return(["hey, world!"])
+    File.read_lines("example").should eq(["hey, world!"])
   end
 end
